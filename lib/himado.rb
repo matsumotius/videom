@@ -5,7 +5,6 @@ require 'open-uri'
 require 'uri'
 require 'nokogiri'
 require 'kconv'
-require 'mechanize'
 
 class Himado
 
@@ -13,12 +12,6 @@ class Himado
   end
 
   def initialize(user_agent=nil)
-    @agent = Mechanize.new
-    @agent.user_agent = user_agent
-  end
-
-  def get(url)
-    @agent.get(url)
   end
 
   def videos(params={:sort => 'movie_id'})
@@ -26,7 +19,7 @@ class Himado
     url += '?' + params.map{|k,v|
       "#{k}=#{URI.encode v.to_s}"
     }.join('&')
-    doc = Nokogiri::HTML @agent.get(url).body.toutf8
+    doc = Nokogiri::HTML open(url).read.toutf8
     doc.xpath('//a').to_a.delete_if{|a|
       !(a['href'] =~ /^http:\/\/himado\.in\/\d+$/) or !a['title']
     }.map{|a|
@@ -39,7 +32,7 @@ class Himado
 
   def video(url)
     res = Hash.new
-    doc = Nokogiri::HTML @agent.get(url).body.toutf8
+    doc = Nokogiri::HTML open(url).read.toutf8
 
     res[:video_url] = doc.xpath('//script').to_a.map{|i|
       i.text
@@ -53,18 +46,24 @@ class Himado
       end
       u
     }.delete_if{|i| i == nil}.first
-
     res[:title] = doc.xpath('//h1[@id="movie_title"]').first.text
     res[:url] = url
-    res[:id] = url.scan(/\/(\d+)$/).first.first
-    
+    res[:page_id] = url.scan(/\/(\d+)$/).first.first.to_i
+    res[:tags] = doc.xpath('//a').map{|a|
+      begin
+        tag = URI.decode a['href'].scan(/\?keyword=(.+)$/).first.first
+      rescue
+        tag = nil
+      end
+      tag
+    }.delete_if{|tag| tag == nil }
     return res
   end
 end
 
 if $0 == __FILE__
   himado = Himado.new
+  # p videos = himado.videos({:keyword => 'Steins;Gate'})
   p videos = himado.videos
   p himado.video(videos.first[:url])
-  p himado.videos({:keyword => 'Steins;Gate'})
 end
