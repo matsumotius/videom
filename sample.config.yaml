@@ -1,0 +1,10 @@
+# mongo db config
+mongo_server : '127.0.0.1'
+mongo_port : 27017
+mongo_dbname : 'himado'
+dir : 'videos'
+retry : 3
+
+tags : 
+     - 'tag1'
+     - 'tag2'
