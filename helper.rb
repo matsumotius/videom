@@ -2,10 +2,7 @@ require 'rubygems'
 require 'mongoid'
 require 'yaml'
 require File.dirname(__FILE__)+'/lib/himado'
-
-class Video
-  include Mongoid::Document
-end
+require File.dirname(__FILE__)+'/models/video'
 
 begin
   @@conf = YAML::load open(File.dirname(__FILE__)+'/config.yaml').read
