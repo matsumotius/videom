@@ -26,7 +26,7 @@ himado = Himado.new
       next
     end
     puts video[:title] + ' - ' + video[:url]
-    next if video[:video_url].size < 1 or !(video[:video_url] =~ /^http.+/)
+    next if video[:video_url].to_s.size < 1 or !(video[:video_url].to_s =~ /^http.+/)
     unless Video.where(:video_url => video[:video_url]).count > 0
       puts ' => saved!' if Video.new(video).save
     end
