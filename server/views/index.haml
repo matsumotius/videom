@@ -1,0 +1,17 @@
+!!! XHTML
+%html
+  %head
+    %title= @title
+    %link{:rel => 'stylesheet', :href => "#{app_root}/css/main.css", :type => 'text/css'}
+    :javascript
+      var app_root = "#{app_root}";
+  %body
+    %div#content
+      %div#head
+        %h1= @title
+      %div#main
+        %ul
+        - for v in @videos
+          %li
+            %a{:href => "#{app_root}/v/#{v.id}"}
+              #{v.title}
