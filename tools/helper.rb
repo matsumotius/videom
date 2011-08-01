@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'mongoid'
 require 'yaml'
+require 'ArgsParser'
 require File.dirname(__FILE__)+'/../lib/himado'
 require File.dirname(__FILE__)+'/../models/video'
 

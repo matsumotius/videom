@@ -3,7 +3,6 @@ require File.dirname(__FILE__)+'/helper'
 require 'digest/md5'
 require 'FileUtils'
 require 'open-uri'
-require 'ArgsParser'
 
 parser = ArgsParser.parser
 parser.bind(:loop, :l, 'do loop', false)
