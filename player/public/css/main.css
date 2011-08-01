@@ -3,3 +3,11 @@ body {
     background-color : #EEE;
     color : #222;
 }
+
+div#ctrls {
+    width : 800px;
+}
+
+input#btn_delete {
+    float : right;
+}

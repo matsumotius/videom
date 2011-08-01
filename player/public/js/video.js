@@ -24,4 +24,10 @@ $(function(){
             }
         }, 'json')
     });
+
+    $('input#speed').change(function(e){
+        var speed = e.target.value/10.0;
+        $('input#speed_val').val(speed+'倍速');
+        $('video')[0].playbackRate = speed;
+    });
 });
