@@ -10,10 +10,9 @@
   %body
     %div#content
       %div#head
-        %h1= @title
+        %p
+          %a{:href => app_root}= @title
+        %h1= @video.title
       %div#main
-        %ul
-        - for v in @videos
-          %li
-            %a{:href => "#{app_root}/v/#{v.id}"}
-              #{v.title}
+        %video{:controls => 'controls', :width => 800, :height => 600}
+          %source{:src => "#{app_root}/v/#{@video.id}.mp4"}
