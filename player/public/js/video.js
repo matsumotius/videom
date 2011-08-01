@@ -17,7 +17,7 @@ $(function(){
     $('#btn_delete').click(function(){
         if(!confirm('delete?')) return;
         $.del(app_root+'/v/'+video_id, {}, function(e){
-            if(e.error) alert('');
+            if(e.error) alert(e.message);
             else{
                 alert(e.message);
                 location.href = app_root;
