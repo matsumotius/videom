@@ -34,7 +34,11 @@ end
 delete '/v/:id' do
   @vid = params[:id].to_s
   begin
-    Video.find(@vid).delete
+    video = Video.find(@vid)
+    File.delete "#{@@dir}/#{video.file}"
+    video.file = nil
+    video[:delete] = true
+    video.save
   rescue => e
     status 404
     @mes = {
