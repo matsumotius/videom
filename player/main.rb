@@ -30,3 +30,20 @@ get '/v/:id' do
     haml :video
   end
 end
+
+delete '/v/:id' do
+  @vid = params[:id].to_s
+  begin
+    Video.find(@vid).delete
+  rescue => e
+    status 404
+    @mes = {
+      :error => true,
+      :message => e.to_s
+    }.to_json
+  end
+  @mes = {
+    :error => false,
+    :message => "video #{@vid} deleted"
+  }.to_json
+end

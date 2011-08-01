@@ -5,7 +5,9 @@
     %link{:rel => 'stylesheet', :href => "#{app_root}/css/main.css", :type => 'text/css'}
     :javascript
       var app_root = "#{app_root}";
+      var video_id = "#{@video.id}"
     %script{:type => 'text/javascript', :src => "#{app_root}/js/jquery.js"}
+    %script{:type => 'text/javascript', :src => "#{app_root}/js/util.js"}
     %script{:type => 'text/javascript', :src => "#{app_root}/js/video.js"}
   %body
     %div#content
@@ -18,3 +20,4 @@
           %source{:src => "#{app_root}/v/#{@video.id}.mp4"}
         %div#ctrls
           %span.btn#fullscreen [fullscreen]
+          %span.btn#delete [delete]
