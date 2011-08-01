@@ -5,7 +5,7 @@ before do
 end
 
 get '/' do
-  @videos = Video.all
+  @videos = Video.where(:file => /.+/)
   haml :index
 end
 
@@ -16,7 +16,7 @@ get '/v/*.mp4' do
     status 404
     @mes = "video file (#{@vid}) not found."
   else
-    open(@@dir+'/'+@video.file).read
+    redirect "#{app_root}/videos/#{@video.file}"
   end
 end
 
