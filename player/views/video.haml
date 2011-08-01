@@ -19,5 +19,5 @@
         %video{:controls => 'controls', :width => 800, :height => 450}
           %source{:src => "#{app_root}/v/#{@video.id}.mp4"}
         %div#ctrls
-          %span.btn#fullscreen [fullscreen]
-          %span.btn#delete [delete]
+          %input{:type => 'button', :class => 'btn', :id => 'btn_fullscreen', :value => 'fullscreen'}
+          %input{:type => 'button', :class => 'btn', :id => 'btn_delete', :value => 'delete'}
