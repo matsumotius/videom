@@ -11,7 +11,7 @@ videos.each{|v|
   puts "  delete? [y/N]"
   if gets =~ /y/i
     begin
-      fname = "#{File.dirname(__FILE__)}/#{@@conf['dir']}/#{v.file}"
+      fname = "#{@@dir}/#{v.file}"
       File.delete fname
       v.delete
       puts " => #{fname} deleted"

@@ -16,15 +16,15 @@ if parser.has_option(:help)
   exit
 end
 
-FileUtils.mkdir_p(@@conf['dir']) unless File.exists? @@conf['dir']
+FileUtils.mkdir_p(@@dir) unless File.exists? @@dir
 
 loop do
   videos = Video.where(:file => nil,
                        :video_url => /^http.+/,
                        :error_count.lt => @@conf['retry']).asc(:error_count)
   
-  puts "#{videos.count} videos in queue"
   if videos.count > 0
+    puts "#{videos.count} videos in queue"
     video = videos.first
     
     puts video.title + ' - ' + video.url
@@ -39,10 +39,11 @@ loop do
       data = nil
     end
     if data != nil
-      open(@@conf['dir']+'/'+fname,'w+'){|out|
+      open("#{@@dir}/#{fname}", 'w+'){|out|
         out.write data
       }
       video[:file] = fname
+      video[:download_at] = Time.now.to_i
       video.save
       puts "=> download complete"
     else
