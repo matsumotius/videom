@@ -28,8 +28,12 @@ loop do
     
     puts video.title + ' - ' + video.url
     fname = Digest::MD5.hexdigest(video.video_url)
+    http_opt = Hash.new
+    video.http_opt.keys.each{|k|
+      http_opt[k.to_sym] = video.http_opt[k]
+    }
     begin
-      data = open(video[:video_url]).read
+      data = open(video[:video_url], http_opt).read
     rescue => e
       STDERR.puts e
       data = nil
