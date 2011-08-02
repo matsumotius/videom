@@ -5,7 +5,7 @@ before do
 end
 
 get '/' do
-  @videos = Video.where(:file => /.+/)
+  @videos = Video.where(:file => /.+/).desc(:_id)
   haml :index
 end
 
