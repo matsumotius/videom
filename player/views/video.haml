@@ -18,7 +18,7 @@
       %div#main
         - @speed = 1.0
         %video{:controls => 'controls', :width => 800, :height => 450, :playbackRate => @speed}
-          %source{:src => "#{app_root}/v/#{@video.id}.mp4"}
+          %source{:src => "#{app_root}/#{@@conf['video_dir']}/#{@video.file}"}
         %div#ctrls
           %input{:type => 'button', :class => 'btn', :id => 'btn_fullscreen', :value => 'fullscreen'}
 

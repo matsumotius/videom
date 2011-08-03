@@ -17,6 +17,7 @@ rescue => e
 end
 
 @@dir = File.dirname(__FILE__)+'/../'+@@conf['video_dir']
+@@thumb_dir = File.dirname(__FILE__)+'/../'+@@conf['thumb_dir']
 
 Mongoid.configure{|conf|
   conf.master = Mongo::Connection.new(@@conf['mongo_server'], @@conf['mongo_port']).db(@@conf['mongo_dbname'])

@@ -16,7 +16,7 @@ get '/v/*.mp4' do
     status 404
     @mes = "video file (#{@vid}) not found."
   else
-    redirect "#{app_root}/videos/#{@video.file}"
+    redirect "#{app_root}/#{@@conf['video_dir']}/#{@video.file}"
   end
 end
 
