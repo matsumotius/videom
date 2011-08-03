@@ -24,3 +24,18 @@ delete
 ------
 
     % ruby -Ku delete.rb
+
+
+make thumbnails
+---------------
+
+install ffmpeg, imagemagick and [video2gif](https://github.com/shokai/video2gif)
+
+    % brew install ffmpeg imagemagick
+    % git clone git@github.com:shokai/video2gif.git
+
+
+make thumbnails
+
+    % ruby make_thumbnails.rb -h
+    % ruby make_thumbnails.rb -video2gif /path/to/video2gif -loop -interval 5
