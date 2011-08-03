@@ -15,8 +15,6 @@ if parser.has_option(:help)
   exit
 end
 
-FileUtils.mkdir_p(@@dir) unless File.exists? @@dir
-
 loop do
   videos = Video.where(:file => nil,
                        :video_url => /^http.+/,
