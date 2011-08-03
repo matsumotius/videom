@@ -2,7 +2,8 @@
 mongo_server : '127.0.0.1'
 mongo_port : 27017
 mongo_dbname : 'himado'
-dir : 'videos'
+video_dir : 'videos'
+thumb_dir : 'thumbs'
 retry : 3
 
 tags : 

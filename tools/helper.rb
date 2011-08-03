@@ -12,7 +12,7 @@ rescue => e
   STDERR.puts e
 end
 
-@@dir = File.dirname(__FILE__)+'/../'+@@conf['dir']
+@@dir = File.dirname(__FILE__)+'/../'+@@conf['video_dir']
 
 Mongoid.configure{|conf|
   conf.master = Mongo::Connection.new(@@conf['mongo_server'], @@conf['mongo_port']).db(@@conf['mongo_dbname'])
