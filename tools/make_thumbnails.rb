@@ -5,7 +5,7 @@ require File.dirname(__FILE__)+'/helper'
 parser = ArgsParser.parser
 parser.bind(:loop, :l, 'do loop', false)
 parser.bind(:interval, :i, 'loop interval (sec)', 5)
-parser.comment(:video2gif, 'video2gif command path', '/usr/bin/video2gif')
+parser.comment(:video2gif, 'video2gif command path')
 parser.comment(:gif_fps, 'gif fps', 1)
 parser.comment(:video_fps, 'video fps', 0.01)
 parser.comment(:size, 'size', '160x90')
