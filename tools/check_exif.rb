@@ -15,7 +15,7 @@ if parser.has_option(:help)
 end
 
 loop do
-  videos = Video.where(:file => /.+/, :delete => nil, :exif => nil)
+  videos = Video.where(:file.exists => true, :delete => nil, :exif => nil)
   videos.each{|v|
     puts file = "#{@@dir}/#{v.file}"
     begin
