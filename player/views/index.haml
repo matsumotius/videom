@@ -12,8 +12,10 @@
     %div#content
       %div#head
         %h1= @title
+        %div#video_count
+          #{@video_count} videos stored.
       %div#main
-        %ul
+        %ul.videos
         - for v in @videos
           %li
             %a{:href => "#{app_root}/v/#{v.id}"}
@@ -26,3 +28,13 @@
                 %a{:href => "#{app_root}/tag/#{tag}", :class => 'tag'}
                   [#{tag}]
             %input{:type => 'button', :class => 'btn_delete', :value => 'delete', :id => v.id.to_s}
+      %div#foot
+        - if @video_count > @per_page*@page
+          - unless @tag
+            - next_page = "#{app_root}/?page=#{@page+1}&per_page=#{@per_page}"
+          - else
+            - next_page = "#{app_root}/tag/#{@tag}/?page=#{@page+1}&per_page=#{@per_page}"
+          %a{:href => next_page}
+            page #{@page+1}
+
+
