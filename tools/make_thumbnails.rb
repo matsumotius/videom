@@ -18,7 +18,7 @@ if parser.has_option(:help) or !parser.has_params([:video2gif])
 end
 
 loop do
-  videos = Video.where(:file => /.+/, :thumb_gif => nil)
+  videos = Video.where(:file.exists => true, :thumb_gif => nil, :delete => nil, :exif.exists => true)
   videos.each{|v|
     file = "#{@@dir}/#{v.file}"
     out = "#{@@thumb_dir}/#{v.file}.gif"
