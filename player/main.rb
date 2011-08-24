@@ -5,13 +5,13 @@ before do
 end
 
 get '/' do
-  @videos = Video.not_in(:delete => [true]).where(:file.exists => true).desc(:_id)
+  @videos = Video.not_in(:hide => [true]).where(:file.exists => true).desc(:_id)
   haml :index
 end
 
 get '/tag/:tag' do
   puts @tag = params[:tag]
-  @videos = Video.not_in(:delete => [true]).where(:file.exists => true, :tags => @tag).desc(:_id)
+  @videos = Video.not_in(:hide => [true]).where(:file.exists => true, :tags => @tag).desc(:_id)
   haml :index
 end
 
@@ -29,7 +29,7 @@ end
 get '/v/:id' do
   @vid = params[:id].to_s
   @video = Video.find(@vid) rescue @video = nil
-  unless @video
+  if !@video or @video.hide
     status 404
     @mes = "video (#{@vid}) not found."
   else
@@ -41,11 +41,12 @@ delete '/v/:id' do
   @vid = params[:id].to_s
   begin
     video = Video.find(@vid)
-    File.delete "#{@@dir}/#{video.file}"
+    File.delete "#{@@dir}/#{video.file}" if File.exists? "#{@@dir}/#{video.file}"
     video.file = nil
-    video.delete = true
+    video.hide = true
     video.save
   rescue => e
+    STDERR.puts e
     status 404
     @mes = {
       :error => true,

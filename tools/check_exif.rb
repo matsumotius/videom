@@ -15,7 +15,7 @@ if parser.has_option(:help)
 end
 
 loop do
-  videos = Video.not_in(:delete => [true]).where(:file.exists => true, :exif => nil)
+  videos = Video.not_in(:hide => [true]).where(:file.exists => true, :exif => nil)
   videos.each{|v|
     puts file = "#{@@dir}/#{v.file}"
     begin
@@ -24,11 +24,12 @@ loop do
     rescue => e
       STDERR.puts e
       File.delete file if File.exists? file
-      v.delete = true
+      v.hide = true
       v.save
       next
     end
-    v.file += '.' + exif['FileType'].downcase unless v.file =~ /.+\.#{exif['FileType']}$/
+    ext = exif['FileType'].downcase
+    v.file += ".#{ext}" unless v.file =~ /.+\.#{ext}$/i
     File.rename(file, "#{@@dir}/#{v.file}") rescue next
     puts " => #{v.file}"
     v.exif = exif.to_hash

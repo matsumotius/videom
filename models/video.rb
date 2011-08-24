@@ -9,5 +9,5 @@ class Video
   field :video_url, :type => String
   field :thumb_gif, :type => String
   field :exif, :type => Hash
-  field :delete, :type => Boolean, :default => false
+  field :hide, :type => Boolean, :default => false
 end
