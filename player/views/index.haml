@@ -12,6 +12,8 @@
     %div#content
       %div#head
         %h1= @title
+        - if @tag.to_s.size > 0
+          tag : #{@tag}
         %div#video_count
           #{@video_count} videos stored.
       %div#main
