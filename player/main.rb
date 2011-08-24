@@ -21,7 +21,9 @@ get '/tag/:tag' do
   @per_page = @@conf['per_page'] if @per_page < 1
   @page = params['page'].to_i
   @page = 1 if @page < 1
-  @videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true, :tags => @tag).desc(:_id).skip(@per_page*(@page-1)).limit(@per_page)
+  videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true, :tags => @tag).desc(:_id)
+  @video_count = videos.count
+  @videos = videos.skip(@per_page*(@page-1)).limit(@per_page)
   haml :index
 end
 
