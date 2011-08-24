@@ -5,13 +5,21 @@ before do
 end
 
 get '/' do
-  @videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true).desc(:_id)
+  @per_page = params['per_page'].to_i
+  @per_page = @@conf['per_page'] if @per_page < 1
+  @page = params['page'].to_i
+  @page = 1 if @page < 1
+  @videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true).desc(:_id).skip(@per_page*(@page-1)).limit(@per_page)
   haml :index
 end
 
 get '/tag/:tag' do
-  puts @tag = params[:tag]
-  @videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true, :tags => @tag).desc(:_id)
+  @tag = params[:tag].to_s
+  @per_page = params['per_page'].to_i
+  @per_page = @@conf['per_page'] if @per_page < 1
+  @page = params['page'].to_i
+  @page = 1 if @page < 1
+  @videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true, :tags => @tag).desc(:_id).skip(@per_page*(@page-1)).limit(@per_page)
   haml :index
 end
 

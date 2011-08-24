@@ -5,6 +5,7 @@ mongo_dbname : 'himado'
 video_dir : 'videos'
 thumb_dir : 'thumbs'
 retry : 3
+per_page : 40
 
 tags : 
      - 'tag1'
