@@ -20,4 +20,9 @@
               - if v.thumb_gif
                 %img{:src => "#{app_root}/#{@@conf['thumb_dir']}/#{v.thumb_gif}"}
               #{v.title}
+            %div.tags
+            - if v.tags
+              - for tag in v.tags
+                %a{:href => "#{app_root}/tag/#{tag}", :class => 'tag'}
+                  [#{tag}]
             %input{:type => 'button', :class => 'btn_delete', :value => 'delete', :id => v.id.to_s}

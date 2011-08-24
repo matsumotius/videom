@@ -5,7 +5,13 @@ before do
 end
 
 get '/' do
-  @videos = Video.where(:file => /.+/).desc(:_id)
+  @videos = Video.where(:file.exists => true, :delete => nil).desc(:_id)
+  haml :index
+end
+
+get '/tag/:tag' do
+  puts @tag = params[:tag]
+  @videos = Video.where(:file.exists => true, :delete => nil, :tags => @tag).desc(:_id)
   haml :index
 end
 
@@ -37,7 +43,7 @@ delete '/v/:id' do
     video = Video.find(@vid)
     File.delete "#{@@dir}/#{video.file}"
     video.file = nil
-    video[:delete] = true
+    video.delete = true
     video.save
   rescue => e
     status 404
