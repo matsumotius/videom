@@ -5,13 +5,13 @@ before do
 end
 
 get '/' do
-  @videos = Video.where(:file.exists => true, :delete => nil).desc(:_id)
+  @videos = Video.not_in(:delete => [true]).where(:file.exists => true).desc(:_id)
   haml :index
 end
 
 get '/tag/:tag' do
   puts @tag = params[:tag]
-  @videos = Video.where(:file.exists => true, :delete => nil, :tags => @tag).desc(:_id)
+  @videos = Video.not_in(:delete => [true]).where(:file.exists => true, :tags => @tag).desc(:_id)
   haml :index
 end
 

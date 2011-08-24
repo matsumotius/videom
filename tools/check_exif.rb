@@ -15,7 +15,7 @@ if parser.has_option(:help)
 end
 
 loop do
-  videos = Video.where(:file.exists => true, :delete => nil, :exif => nil)
+  videos = Video.not_in(:delete => [true]).where(:file.exists => true, :exif => nil)
   videos.each{|v|
     puts file = "#{@@dir}/#{v.file}"
     begin
