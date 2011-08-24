@@ -25,6 +25,12 @@ delete
 
     % ruby -Ku delete.rb
 
+check EXIF
+----------
+
+    % brew install exiftool
+    % gem install mini_exiftool
+    % ruby check_exif.rb -loop -interval 5
 
 make thumbnails
 ---------------

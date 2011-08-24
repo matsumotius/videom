@@ -7,5 +7,7 @@ class Video
   field :tags, :type => Array
   field :url, :type => String
   field :video_url, :type => String
-  field :thumb_gif
+  field :thumb_gif, :type => String
+  field :exif, :type => Hash
+  field :delete, :type => Boolean, :default => false
 end
