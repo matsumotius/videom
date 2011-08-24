@@ -15,7 +15,7 @@ if parser.has_option(:help)
 end
 
 loop do
-  videos = Video.not_in(:hide => [true]).where(:file.exists => true, :exif => nil)
+  videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true, :exif => nil)
   videos.each{|v|
     puts file = "#{@@dir}/#{v.file}"
     begin
@@ -25,6 +25,7 @@ loop do
       STDERR.puts e
       File.delete file if File.exists? file
       v.hide = true
+      v.file = nil
       v.save
       next
     end

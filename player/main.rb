@@ -5,13 +5,13 @@ before do
 end
 
 get '/' do
-  @videos = Video.not_in(:hide => [true]).where(:file.exists => true).desc(:_id)
+  @videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true).desc(:_id)
   haml :index
 end
 
 get '/tag/:tag' do
   puts @tag = params[:tag]
-  @videos = Video.not_in(:hide => [true]).where(:file.exists => true, :tags => @tag).desc(:_id)
+  @videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true, :tags => @tag).desc(:_id)
   haml :index
 end
 
