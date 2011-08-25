@@ -3,9 +3,11 @@
   %head
     %title= "#{@video.title} - #{@title}"
     %link{:rel => 'stylesheet', :href => "#{app_root}/css/main.css", :type => 'text/css'}
+    %link{:rel => 'stylesheet', :href => "#{app_root}/css/video.css", :type => 'text/css'}
     :javascript
       var app_root = "#{app_root}";
       var video_id = "#{@video.id}"
+      var tags = #{@video.tags.to_json};
     %script{:type => 'text/javascript', :src => "#{app_root}/js/jquery.js"}
     %script{:type => 'text/javascript', :src => "#{app_root}/js/util.js"}
     %script{:type => 'text/javascript', :src => "#{app_root}/js/video.js"}
@@ -15,6 +17,11 @@
         %p
           %a{:href => app_root}= @title
         %h1= @video.title
+        %div#tags
+          (empty)
+        %div#tag_ctrls
+          %input{:type => :text, :size => 20, :id => 'input_add_tag'}
+          %input{:type => :button, :value => 'add', :id => 'btn_add_tag'}
       %div#main
         - @speed = 1.0
         %video{:controls => 'controls', :width => 800, :height => 450, :playbackRate => @speed, :poster => "#{app_root}/#{@@conf['thumb_dir']}/#{@video.thumb_gif}"}

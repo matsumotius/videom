@@ -38,14 +38,41 @@ get '/v/*.mp4' do
   end
 end
 
-get '/v/:id' do
-  @vid = params[:id].to_s
-  @video = Video.find(@vid) rescue @video = nil
-  if !@video or @video.hide
-    status 404
-    @mes = "video (#{@vid}) not found."
-  else
-    haml :video
+get '/v/*.json' do
+  @vid = params[:splat].first.to_s
+  begin
+    @video = Video.find(@vid)
+    raise "video (#{@vid}) not found" if !@video or @video.hide
+    @mes = @video.to_hash.to_json
+  rescue => e
+    STDERR.puts e
+    @mes = {
+      :error => true,
+      :message => e
+    }.to_json
+  end
+end
+
+post '/v/*.json' do
+  @vid = params[:splat].first.to_s
+  @tag = params['tag'].to_s
+  begin
+    raise "empty tag" if @tag.size < 1
+    @video = Video.find(@vid)
+    raise "video (#{@vid}) not found" if !@video or @video.hide
+    raise "tag #{@tag} already exists" if @video.tags.include? @tag
+    @video.tags << @tag
+    @video.save
+    @mes = {
+      :error => false,
+      :data => @video.to_hash
+    }.to_json
+  rescue => e
+    STDERR.puts e
+    @mes = {
+      :error => true,
+      :message => e.to_s
+    }.to_json
   end
 end
 
@@ -69,4 +96,15 @@ delete '/v/:id' do
     :error => false,
     :message => "video #{@vid} deleted"
   }.to_json
+end
+
+get '/v/:id' do
+  @vid = params[:id].to_s
+  @video = Video.find(@vid) rescue @video = nil
+  if !@video or @video.hide
+    status 404
+    @mes = "video (#{@vid}) not found."
+  else
+    haml :video
+  end
 end

@@ -1,0 +1,8 @@
+div#tags {
+    float : left;
+    margin-right : 5px;
+}
+
+a.tag {
+    margin-right : 4px;
+}
