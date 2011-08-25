@@ -24,12 +24,23 @@
               - if v.thumb_gif
                 %img{:src => "#{app_root}/#{@@conf['thumb_dir']}/#{v.thumb_gif}"}
               #{v.title}
-            %div.tags
-            - if v.tags
-              - for tag in v.tags
-                %a{:href => "#{app_root}/tag/#{tag}", :class => 'tag'}
-                  [#{tag}]
-            %input{:type => 'button', :class => 'btn_delete', :value => 'delete', :id => v.id.to_s}
+            %ul
+              - if v.tags
+                %li.tags
+                  - for tag in v.tags
+                    %a{:href => "#{app_root}/tag/#{tag}", :class => 'tag'}
+                      [#{tag}]
+              - if v.exif
+                %li.filetype
+                  type : #{v.exif['MIMEType']}
+                %li.filesize
+                  size : #{v.exif['FileSize']}
+                %li.duration
+                  duration : #{v.exif['Duration']}
+                %li.imagesize
+                  image size : #{v.exif['ImageSize']}
+              %li.controls
+                %input{:type => 'button', :class => 'btn_delete', :value => 'delete', :id => v.id.to_s}
       %div#foot
         - if @video_count > @per_page*@page
           - unless @tag
