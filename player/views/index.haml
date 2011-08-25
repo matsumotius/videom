@@ -11,7 +11,8 @@
   %body
     %div#content
       %div#head
-        %h1= @title
+        %a{:href => app_root}
+          %h1= @title
         - if @tag.to_s.size > 0
           tag : #{@tag}
         %div#video_count
