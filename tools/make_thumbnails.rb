@@ -18,9 +18,10 @@ if parser.has_option(:help) or !parser.has_params([:video2gif])
 end
 
 loop do
-  videos = Video.not_in(:hide => [true]).where(:file.exists => true, :exif.exists => true)
+  videos = Video.not_in(:file => [nil]).where(:exif.exists => true, :thumb_gif.exists => false)
   videos.each{|v|
     file = "#{@@dir}/#{v.file}"
+    next unless File.exists? file
     out = "#{@@thumb_dir}/#{v.file}.gif"
     puts cmd = "#{params[:video2gif]} -i #{file} -o #{out} -video_fps #{params[:video_fps]} -gif_fps #{params[:gif_fps]} -size #{params[:size]}"
     system cmd
