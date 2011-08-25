@@ -27,6 +27,7 @@
             %ul
               - if v.tags
                 %li.tags
+                  tag : 
                   - for tag in v.tags
                     %a{:href => "#{app_root}/tag/#{tag}", :class => 'tag'}
                       [#{tag}]
