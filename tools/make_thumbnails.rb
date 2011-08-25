@@ -19,7 +19,10 @@ end
 
 loop do
   videos = Video.not_in(:file => [nil]).where(:exif.exists => true, :thumb_gif.exists => false)
-  videos.each{|v|
+  loop do
+    break if videos.empty?
+    v = videos.shift
+    puts "#{v.title}(id:#{v.id}) - #{videos.count+1} videos in thumbnail queue"
     file = "#{@@dir}/#{v.file}"
     next unless File.exists? file
     out = "#{@@thumb_dir}/#{v.file}.gif"
@@ -28,7 +31,7 @@ loop do
     next unless File.exists? out
     v[:thumb_gif] = "#{v.file}.gif"
     v.save
-  }
+  end
   break unless params[:loop]
   sleep params[:interval].to_i
 end
