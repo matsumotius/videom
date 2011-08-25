@@ -2,6 +2,7 @@
 var fullscreen = false;
 $(function(){
     display_tags(tags);
+    $('#tag_ctrls #edit').hide();
 
     $('#btn_fullscreen').click(function(){
         if(!fullscreen){
@@ -27,15 +28,33 @@ $(function(){
         }, 'json')
     });
 
-    $('#btn_add_tag').click(function(){
-        var tag = $('input#input_add_tag').val();
-        if(tag.length < 1) return;
-        $.post(app_root+'/v/'+video_id+'.json', {tag : tag}, function(e){
-            console.log(e);
+    $('#btn_edit_tag').click(function(){
+        $('#tag_ctrls #edit').show();
+        $('#tag_ctrls #default').hide();
+        $('div#tags').html('');
+        $('#tag_ctrls input#tags').val(
+            tags.map(function(tag){
+                return '['+tag+']';
+            }).join('')
+        );
+    });
+
+    $('#btn_cancel_tag').click(function(){
+        $('#tag_ctrls #edit').hide();
+        $('#tag_ctrls #default').show();
+        display_tags(tags);
+    });
+
+    $('#btn_save_tag').click(function(){
+        var post_data = {};
+        post_data.tags = $('input#tags').val().split(/[\[\]]/).filter(function(tag){ return tag.length > 0});
+        $.post(app_root+'/v/'+video_id+'.json', post_data, function(e){
             if(e.error) alert(e.message);
             else{
                 tags = e.data.tags;
                 display_tags(tags);
+                $('#tag_ctrls #edit').hide();
+                $('#tag_ctrls #default').show();
             }
         }, 'json');
     });

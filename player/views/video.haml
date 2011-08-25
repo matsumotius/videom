@@ -17,11 +17,16 @@
         %p
           %a{:href => app_root}= @title
         %h1= @video.title
+        %h2 tag
         %div#tags
           (empty)
         %div#tag_ctrls
-          %input{:type => :text, :size => 20, :id => 'input_add_tag'}
-          %input{:type => :button, :value => 'add', :id => 'btn_add_tag'}
+          %div#edit
+            %input{:type => :text, :size => 100, :id => 'tags'}
+            %input{:type => :button, :value => 'save', :id => 'btn_save_tag'}
+            %input{:type => :button, :value => 'cancel', :id => 'btn_cancel_tag'}
+          %div#show
+            %input{:type => :button, :value => 'edit', :id => 'btn_edit_tag'}
       %div#main
         - @speed = 1.0
         %video{:controls => 'controls', :width => 800, :height => 450, :playbackRate => @speed, :poster => "#{app_root}/#{@@conf['thumb_dir']}/#{@video.thumb_gif}"}

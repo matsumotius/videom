@@ -55,13 +55,11 @@ end
 
 post '/v/*.json' do
   @vid = params[:splat].first.to_s
-  @tag = params['tag'].to_s
+  @tags = params['tags'].delete_if{|tag| tag.to_s.size < 1}.uniq
   begin
-    raise "empty tag" if @tag.size < 1
     @video = Video.find(@vid)
     raise "video (#{@vid}) not found" if !@video or @video.hide
-    raise "tag #{@tag} already exists" if @video.tags.include? @tag
-    @video.tags << @tag
+    @video.tags = @tags
     @video.save
     @mes = {
       :error => false,
