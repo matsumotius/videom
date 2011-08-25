@@ -35,7 +35,7 @@
           - unless @tag
             - next_page = "#{app_root}/?page=#{@page+1}&per_page=#{@per_page}"
           - else
-            - next_page = "#{app_root}/tag/#{@tag}/?page=#{@page+1}&per_page=#{@per_page}"
+            - next_page = "#{app_root}/tag/#{@tag}?page=#{@page+1}&per_page=#{@per_page}"
           %a{:href => next_page}
             page #{@page+1}
 
