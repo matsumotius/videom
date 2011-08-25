@@ -69,6 +69,6 @@ $(function(){
 var display_tags = function(tags){
     $('div#tags').html('');
     tags.map(function(tag){
-        $('<a>').html('['+tag+']').attr('href',app_root+'/tag/'+tag).addClass('tag').appendTo('div#tags');
+        $('<a>').html('['+tag.escape_html()+']').attr('href',app_root+'/tag/'+tag).addClass('tag').appendTo('div#tags');
     });
 };
