@@ -20,22 +20,20 @@ end
 
 loop do
   videos = Video.where(:file => /.+/, :exif.exists => true, :thumb_gif.exists => false)
-  puts "==#{videos.count+1} videos in thumbnail queue=="
-  for v in videos do
-    puts "#{v.title}(id:#{v.id})"
-    file = "#{@@dir}/#{v.file}"
-    next unless File.exists? file
-    out = "#{@@thumb_dir}/#{v.file}.gif"
+  v = videos.first
+  puts "#{v.title}(id:#{v.id}) - #{videos.count} videos in thumbnail queue"
+  file = "#{@@dir}/#{v.file}"
+  begin
+    raise 'file not exists' unless File.exists? file
+    out = "#{@@thumb_dir}/#{v.id}.gif"
     puts cmd = "#{params[:video2gif]} -i #{file} -o #{out} -video_fps #{params[:video_fps]} -gif_fps #{params[:gif_fps]} -size #{params[:size]} -tmp_dir #{params[:tmp_dir]}"
-    begin
-      system cmd
-      next unless File.exists? out
-      v[:thumb_gif] = "#{v.file}.gif"
-      v.save
-    rescue => e
-      STDERR.puts e
-      next
-    end
+    system cmd
+    next unless File.exists? out
+    v[:thumb_gif] = "#{v.file}.gif"
+    v.save
+  rescue => e
+    STDERR.puts e
+    v.hide = true
   end
   break unless params[:loop]
   sleep params[:interval].to_i
