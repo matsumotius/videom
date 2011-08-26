@@ -15,7 +15,7 @@
         %a{:href => app_root}
           %h1= @title
         - if @tag.to_s.size > 0
-          tag : #{@tag}
+          tag : #{escape_html @tag}
         %div#video_count
           #{@video_count} videos
       %div#main
@@ -32,7 +32,7 @@
                   tag : 
                   - for tag in v.tags
                     %a{:href => "#{app_root}/tag/#{tag}", :class => 'tag'}
-                      [#{tag}]
+                      [#{escape_html tag}]
               - if v.exif
                 %li.filetype
                   type : #{v.exif['MIMEType']}
