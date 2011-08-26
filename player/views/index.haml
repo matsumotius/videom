@@ -3,6 +3,7 @@
   %head
     %title= @title
     %link{:rel => 'stylesheet', :href => "#{app_root}/css/main.css", :type => 'text/css'}
+    %link{:rel => 'stylesheet', :href => "#{app_root}/css/index.css", :type => 'text/css'}
     :javascript
       var app_root = "#{app_root}";
     %script{:type => 'text/javascript', :src => "#{app_root}/js/jquery.js"}
@@ -44,12 +45,20 @@
               %li.controls
                 %input{:type => 'button', :class => 'btn_delete', :value => 'delete', :id => v.id.to_s}
       %div#foot
-        - if @video_count > @per_page*@page
-          - unless @tag
-            - next_page = "#{app_root}/?page=#{@page+1}&per_page=#{@per_page}"
-          - else
-            - next_page = "#{app_root}/tag/#{@tag}?page=#{@page+1}&per_page=#{@per_page}"
-          %a{:href => next_page}
-            page #{@page+1}
+        %div#page_nav
+          - if @page > 1
+            - unless @tag
+              - prev_page = "#{app_root}/?page=#{@page-1}&per_page=#{@per_page}"
+            - else
+              - prev_page = "#{app_root}/tag/#{@tag}?page=#{@page-1}&per_page=#{@per_page}"
+            %a{:href => prev_page}
+              page #{@page-1}
+          - if @video_count > @per_page*@page
+            - unless @tag
+              - next_page = "#{app_root}/?page=#{@page+1}&per_page=#{@per_page}"
+            - else
+              - next_page = "#{app_root}/tag/#{@tag}?page=#{@page+1}&per_page=#{@per_page}"
+            %a{:href => next_page}
+              page #{@page+1}
 
 
