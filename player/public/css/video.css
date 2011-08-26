@@ -3,6 +3,22 @@ div#tags {
     margin-right : 5px;
 }
 
+h1, h2 {
+    margin-bottom : 0px;
+}
+
+ul {
+    margin : 0px;
+}
+
+div#main {
+    margin-top : 20px;
+}
+
+div#head div {
+    margin-left : 20px;
+}
+
 a.tag {
     margin-right : 4px;
 }

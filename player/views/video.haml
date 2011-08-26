@@ -17,6 +17,19 @@
         %p
           %a{:href => app_root}= @title
         %h1= @video.title
+        %h2 info
+        - if @video.exif
+          %ul
+            %li.filetype
+              type : #{@video.exif['MIMEType']}
+            %li.filesize
+              size : #{@video.exif['FileSize']}
+            %li.duration
+              duration : #{@video.exif['Duration']}
+            %li.imagesize
+              image size : #{@video.exif['ImageSize']}
+            %li.source
+              source : #{@video.url}
         %h2 tag
         %div#tags
           (empty)
