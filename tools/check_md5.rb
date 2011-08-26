@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-require 'mini_exiftool'
+require 'digest/md5'
 require File.dirname(__FILE__)+'/helper'
 
 parser = ArgsParser.parser
@@ -15,29 +15,27 @@ if parser.has_option(:help)
 end
 
 loop do
-  videos = Video.not_in(:hide => [true]).where(:file => /.+/, :md5 => /.+/, :exif => nil)
+  videos = Video.where(:file => /.+/, :md5 => nil).desc(:_id)
   puts "#{videos.count} files in queue"
   videos.each do |v|
     file = "#{@@dir}/#{v.file}"
     puts "#{v.title} - #{file}"
     begin
-      exif = MiniExiftool.new file
-      raise "#{exif['mime_type']} is not video file" unless exif['mime_type'] =~ /^video\/.+/i
+      md5 = Digest::MD5.hexdigest(open(file).read)
+      puts " => #{md5}"
+      v.md5 = md5
+      if Video.where(:md5 => md5).count > 0
+        puts "#{md5} is already stored"
+        File.delete file if File.exists? file
+        v.hide = true
+        v.file = nil
+        puts 'deleted!!'
+      end
+      v.save
     rescue => e
       STDERR.puts e
-      File.delete file if File.exists? file
-      v.hide = true
-      v.file = nil
-      v.save
-      next
+    next
     end
-    ext = exif['FileType'].downcase
-    v.file += ".#{ext}" unless v.file =~ /.+\.#{ext}$/i
-    File.rename(file, "#{@@dir}/#{v.file}") rescue next
-    puts " => #{v.file}"
-    v.exif = exif.to_hash
-    p v.exif
-    v.save
   end
   break unless params[:loop]
   sleep params[:interval].to_i

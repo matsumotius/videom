@@ -8,6 +8,7 @@ class Video
   field :url, :type => String
   field :video_url, :type => String
   field :thumb_gif, :type => String
+  field :md5, :type => String
   field :exif, :type => Hash
   field :hide, :type => Boolean, :default => false
   def to_hash
