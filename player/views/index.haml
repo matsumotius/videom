@@ -42,6 +42,8 @@
                   duration : #{v.exif['Duration']}
                 %li.imagesize
                   image size : #{v.exif['ImageSize']}
+                %li.source
+                  source : #{v.url}
               %li.controls
                 %input{:type => 'button', :class => 'btn_delete', :value => 'delete', :id => v.id.to_s}
       %div#foot
