@@ -19,7 +19,7 @@ if parser.has_option(:help) or !parser.has_params([:video2gif])
 end
 
 loop do
-  videos = Video.where(:file => /.+/, :exif.exists => true, :thumb_gif.exists => false)
+  videos = Video.not_in(:hide => [true]).where(:file => /.+/, :exif.exists => true, :thumb_gif.exists => false)
   videos.each do |v|
     puts "#{v.title}(id:#{v.id}) - #{videos.count} videos in thumbnail queue"
     file = "#{@@dir}/#{v.file}"
@@ -28,8 +28,12 @@ loop do
       out = "#{@@thumb_dir}/#{v.id}.gif"
       puts cmd = "#{params[:video2gif]} -i #{file} -o #{out} -video_fps #{params[:video_fps]} -gif_fps #{params[:gif_fps]} -size #{params[:size]} -tmp_dir #{params[:tmp_dir]}"
       system cmd
-      next unless File.exists? out
-      v[:thumb_gif] = "#{v.file}.gif"
+      unless File.exists? out
+        v.hide = true
+        next
+      else
+        v.thumb_gif = "#{v.file}.gif"
+      end
       v.save
     rescue => e
       STDERR.puts e
