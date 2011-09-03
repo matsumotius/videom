@@ -32,7 +32,7 @@ loop do
         v.hide = true
         next
       else
-        v.thumb_gif = "#{v.file}.gif"
+        v.thumb_gif = "#{v.id}.gif"
       end
       v.save
     rescue => e
