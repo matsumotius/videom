@@ -10,4 +10,9 @@ $(function(){
             }
         }, 'json')
     });
+    
+    $('#btn_search').click(function(){
+        var word = $('#input_search').val();
+        location.href = app_root+'/search/'+word;
+    });
 });

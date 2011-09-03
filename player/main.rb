@@ -27,6 +27,20 @@ get '/tag/:tag' do
   haml :index
 end
 
+get '/search/:word' do
+  @word = params[:word]
+  @per_page = params['per_page'].to_i
+  @per_page = @@conf['per_page'] if @per_page < 1
+  @page = params['page'].to_i
+  @page = 1 if @page < 1
+  videos = Video.all(:conditions => {"$or" => [{:title => /#{@word}/},
+                                               {:tags => /#{@word}/},
+                                               {:url => /#{@word}/}]}).desc(:_id)
+  @video_count = videos.count
+  @videos = videos.skip(@per_page*(@page-1)).limit(@per_page)
+  haml :index
+end
+
 get '/v/*.mp4' do
   @vid = params[:splat].first.to_s
   @video = Video.find(@vid) rescue @video = nil

@@ -18,6 +18,9 @@
           tag : #{escape_html @tag}
         %div#video_count
           #{@video_count} videos
+        %div#search
+          %input{:type => :text, :size => 20, :value => @word, :id => :input_search}
+          %input{:type => :button, :value => 'search', :id => :btn_search}
       %div#main
         %ul.videos
         - for v in @videos
