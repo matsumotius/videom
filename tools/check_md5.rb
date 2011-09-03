@@ -21,15 +21,20 @@ loop do
     file = "#{@@dir}/#{v.file}"
     puts "#{v.title} - #{file}"
     begin
-      md5 = Digest::MD5.hexdigest(open(file).read)
-      puts " => #{md5}"
-      v.md5 = md5
-      if Video.where(:md5 => md5).count > 0
-        puts "#{md5} is already stored"
-        File.delete file if File.exists? file
+      unless File.exists? file
         v.hide = true
         v.file = nil
-        puts 'deleted!!'
+      else
+        md5 = Digest::MD5.hexdigest(open(file).read)
+        puts " => #{md5}"
+        v.md5 = md5
+        if Video.where(:md5 => md5).count > 0
+          puts "#{md5} is already stored"
+          File.delete file if File.exists? file
+          v.hide = true
+          v.file = nil
+          puts 'deleted!!'
+        end
       end
       v.save
     rescue => e

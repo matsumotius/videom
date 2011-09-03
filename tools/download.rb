@@ -16,9 +16,9 @@ if parser.has_option(:help)
 end
 
 loop do
-  videos = Video.where(:file => nil,
-                       :video_url => /^http.+/,
-                       :error_count.lt => @@conf['retry']).asc(:error_count)
+  videos = Video.not_in(:hide => [true]).where(:file => nil,
+                                               :video_url => /^http.+/,
+                                               :error_count.lt => @@conf['retry']).asc(:error_count)
   
   if videos.count > 0
     puts "#{videos.count} videos in queue"
