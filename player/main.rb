@@ -21,7 +21,7 @@ get '/tag/:tag' do
   @per_page = @@conf['per_page'] if @per_page < 1
   @page = params['page'].to_i
   @page = 1 if @page < 1
-  videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true, :tags => @tag).desc(:_id)
+  videos = Video.not_in(:hide => [true]).not_in(:file => [nil]).where(:file.exists => true, :tags => /^#{@tag}$/i).desc(:_id)
   @video_count = videos.count
   @videos = videos.skip(@per_page*(@page-1)).limit(@per_page)
   haml :index
@@ -34,9 +34,9 @@ get '/search/:word' do
   @page = params['page'].to_i
   @page = 1 if @page < 1
   videos = Video.all(:conditions => 
-                     {"$or" => [{:title => /#{@word}/},
-                                {:tags => /#{@word}/},
-                                {:url => /#{@word}/}]}).not_in(:hide => [true]).where(:file.exists => true).desc(:_id)
+                     {"$or" => [{:title => /#{@word}/i},
+                                {:tags => /#{@word}/i},
+                                {:url => /#{@word}/i}]}).not_in(:hide => [true]).where(:file.exists => true).desc(:_id)
   @video_count = videos.count
   @videos = videos.skip(@per_page*(@page-1)).limit(@per_page)
   haml :index
