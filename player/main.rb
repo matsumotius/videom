@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 before do
-  @title = 'himado download player'
+  @title = 'videom'
 end
 
 get '/' do

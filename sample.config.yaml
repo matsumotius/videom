@@ -1,7 +1,7 @@
 # mongo db config
 mongo_server : '127.0.0.1'
 mongo_port : 27017
-mongo_dbname : 'himado'
+mongo_dbname : 'videom'
 video_dir : 'videos'
 thumb_dir : 'thumbs'
 retry : 3
